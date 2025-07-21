@@ -41,6 +41,24 @@ def handle_chat():
         # Captura erros gerais do servidor
         print(f"Erro interno no servidor: {e}")
         return jsonify({"error": "Erro interno do servidor. Por favor, tente novamente."}), 500
+          # Configura o Gemini com a CHAVE DE API DO JOGADOR
+        genai.configure(api_key=player_api_key)
+
+        # Mude esta linha para garantir que o modelo correto seja acessado
+        # O "gemini-pro" é o nome do modelo. O "generateContent" é o método.
+        # A biblioteca geralmente cuida do mapping.
+        # O erro 404 sugere que o endpoint para gemini-pro/generateContent não está disponível.
+        # Vamos garantir que a biblioteca esteja usando a versão correta.
+        # Se você ainda tiver problemas, podemos tentar um ajuste na região do Render.
+        model = genai.GenerativeModel('gemini-pro') # Manter assim, pois é o nome do modelo.
+
+        # Geração de conteúdo com tratamento de erro básico
+        try:
+            # A chamada para generateContent é o que importa
+            response = model.generate_content(player_message)
+            gemini_response_text = response.text
+        except Exception as e:
+            # ... (seu tratamento de erro) ...
 
 # O Render vai rodar seu aplicativo. Localmente, você usaria:
 # if __name__ == '__main__':
